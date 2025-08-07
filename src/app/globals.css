@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f3ea;
+  --foreground: #1a1a1a;
+  --accent: #e76f51; /* Indonesian Batik Orange */
+  --accent-dark: #264653; /* Deep blue-green */
+  --overlay: rgba(0,0,0,0.3);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --font-sans: var(--font-geist-sans), 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Fira Mono', 'Consolas', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #181818;
+    --foreground: #ededed;
+    --accent: #e76f51;
+    --accent-dark: #264653;
+    --overlay: rgba(0,0,0,0.5);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* Parallax overlay for better text contrast */
+.parallax-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  z-index: 1;
+}
+
+/* Navigation bar styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 50;
+  background: linear-gradient(to bottom, var(--background) 80%, transparent 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.3s;
+}
+
+.navbar-link {
+  color: var(--accent-dark);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.5rem 1.2rem;
+  border-radius: 9999px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.navbar-link.active, .navbar-link:hover {
+  background: var(--accent);
+  color: #fff;
+}
