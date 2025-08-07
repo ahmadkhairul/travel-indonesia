@@ -234,8 +234,8 @@ export default function Home() {
       ))}
 
       {/* Footer */}
-      <footer className="py-8 text-center text-xs text-foreground/60 bg-background">
-        &copy; {new Date().getFullYear()} Discover Indonesia – A Parallax
+      <footer className="fixed w-full bottom-0 py-8 text-center text-xs text-foreground/60 bg-background">
+        Ahmad Khairul Anwar &copy; 2025 Discover Indonesia – A Parallax
         Journey Through The Archipelago
       </footer>
     </div>

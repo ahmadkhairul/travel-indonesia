@@ -18,7 +18,7 @@ export default function ParallaxSection({
 }: ParallaxSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const [scrollDir, setScrollDir] = useState<'down' | 'up'>('down');
+  const [scrollDir, setScrollDir] = useState<"down" | "up">("down");
   const lastScrollY = useRef(0);
   const [showHistory, setShowHistory] = useState(false);
   const [showHistoryText, setShowHistoryText] = useState(false);
@@ -27,11 +27,11 @@ export default function ParallaxSection({
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setScrollDir(currentScrollY > lastScrollY.current ? 'down' : 'up');
+      setScrollDir(currentScrollY > lastScrollY.current ? "down" : "up");
       lastScrollY.current = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -63,11 +63,7 @@ export default function ParallaxSection({
   return (
     <section
       ref={sectionRef}
-      className={`relative flex items-center justify-center overflow-hidden ${
-        isHero
-          ? "min-h-[80vh] sm:min-h-[90vh]"
-          : "min-h-[70vh] sm:min-h-[80vh]"
-      }`}
+      className={`relative flex items-center justify-center overflow-hidden min-h-[80vh] sm:min-h-[90vh]`}
     >
       {/* Parallax background image with fade in/out */}
       <div
@@ -87,18 +83,22 @@ export default function ParallaxSection({
       {/* Text content with direction-aware animation */}
       <div
         className={`relative z-10 text-center text-white px-4 max-w-2xl mx-auto drop-shadow-lg transition-all duration-1000
-          ${inView
-            ? scrollDir === 'down'
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-100 -translate-y-0'
-            : scrollDir === 'down'
-              ? 'opacity-0 translate-y-12'
-              : 'opacity-0 -translate-y-12'}
+          ${
+            inView
+              ? scrollDir === "down"
+                ? "opacity-100 translate-y-0"
+                : "opacity-100 -translate-y-0"
+              : scrollDir === "down"
+              ? "opacity-0 translate-y-12"
+              : "opacity-0 -translate-y-12"
+          }
         `}
       >
         <div className="relative inline-block">
           <h2
-            className={`font-extrabold mb-2 drop-shadow-lg cursor-pointer ${isHero ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"}`}
+            className={`font-extrabold mb-2 drop-shadow-lg cursor-pointer ${
+              isHero ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"
+            }`}
             tabIndex={0}
             onClick={() => setShowHistory((v) => !v)}
             onMouseEnter={() => setTooltip(true)}
@@ -112,14 +112,18 @@ export default function ParallaxSection({
           {!isHero && (
             <div
               className={`absolute left-1/2 -translate-x-1/2 -top-12 bg-black bg-opacity-90 text-base font-medium text-white px-4 py-2 rounded-lg shadow-lg pointer-events-none transition-opacity duration-300 z-50
-                ${tooltip ? 'opacity-100 animate-fadein' : 'opacity-0'}`}
-              style={{whiteSpace: 'nowrap'}}
+                ${tooltip ? "opacity-100 animate-fadein" : "opacity-0"}`}
+              style={{ whiteSpace: "nowrap" }}
             >
               show history
             </div>
           )}
         </div>
-        <p className={`drop-shadow-md ${isHero ? "text-lg sm:text-2xl font-medium" : "text-lg sm:text-xl"}`}>
+        <p
+          className={`drop-shadow-md ${
+            isHero ? "text-lg sm:text-2xl font-medium" : "text-lg sm:text-xl"
+          }`}
+        >
           {description}
         </p>
       </div>
@@ -129,13 +133,23 @@ export default function ParallaxSection({
           {/* Black overlay slides in from right, now with smoother opacity and blur */}
           <div
             className={`fixed sm:absolute top-0 right-0 h-full w-full bg-black z-20 pointer-events-none transition-all duration-700 ease-in-out
-              ${showHistory ? 'opacity-85 blur-sm shadow-2xl translate-x-0' : 'opacity-0 blur-none translate-x-full'}`}
-            style={{transitionProperty: 'transform, opacity, filter, box-shadow'}}
+              ${
+                showHistory
+                  ? "opacity-85 blur-sm shadow-2xl translate-x-0"
+                  : "opacity-0 blur-none translate-x-full"
+              }`}
+            style={{
+              transitionProperty: "transform, opacity, filter, box-shadow",
+            }}
           />
           {/* City history text fade in from bottom */}
           <div
             className={`fixed sm:absolute top-1/2 left-1/2 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 z-30 text-white text-lg font-medium text-center pointer-events-auto transition-all duration-500
-              ${showHistory && showHistoryText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              ${
+                showHistory && showHistoryText
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
           >
             {history.map((line, i) => (
               <div key={i} className="mb-2 last:mb-0 animate-fadein">
