@@ -111,7 +111,7 @@ export default function Home() {
   return (
     <div className="w-full min-h-screen bg-background text-foreground font-sans">
       {/* Navigation Bar */}
-      <nav className="navbar flex items-center justify-center py-3 gap-2 sm:gap-4">
+      <nav className="w-screen navbar flex items-center justify-start py-3 gap-4 sm:hidden overflow-x-auto px-4 whitespace-nowrap scrollbar-hide">
         <a href="#hero" className="navbar-link">
           Home
         </a>
@@ -234,9 +234,11 @@ export default function Home() {
       ))}
 
       {/* Footer */}
-      <footer className="fixed w-full bottom-0 py-8 text-center text-xs text-foreground/60 bg-background">
-        Ahmad Khairul Anwar &copy; 2025 Discover Indonesia – A Parallax
-        Journey Through The Archipelago
+      <footer className="fixed bottom-0 w-screen bg-background py-4 px-2 text-center text-[10px] sm:text-xs text-foreground/60 z-50">
+        <p className="line-clamp-2">
+          Ahmad Khairul Anwar &copy; 2025 Discover Indonesia – A Parallax
+          Journey Through The Archipelago
+        </p>
       </footer>
     </div>
   );

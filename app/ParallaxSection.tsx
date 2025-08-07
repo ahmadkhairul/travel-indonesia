@@ -135,8 +135,8 @@ export default function ParallaxSection({
             className={`fixed sm:absolute top-0 right-0 h-full w-full bg-black z-20 pointer-events-none transition-all duration-700 ease-in-out
               ${
                 showHistory
-                  ? "opacity-85 blur-sm shadow-2xl translate-x-0"
-                  : "opacity-0 blur-none translate-x-full"
+                  ? "opacity-85 blur-sm shadow-2xl"
+                  : "opacity-0 blur-none"
               }`}
             style={{
               transitionProperty: "transform, opacity, filter, box-shadow",
@@ -144,7 +144,7 @@ export default function ParallaxSection({
           />
           {/* City history text fade in from bottom */}
           <div
-            className={`fixed sm:absolute top-1/2 left-1/2 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 z-30 text-white text-lg font-medium text-center pointer-events-auto transition-all duration-500
+            className={`fixed sm:absolute p-4 top-1/2 left-1/2 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 z-30 text-white text-lg font-medium text-center pointer-events-auto transition-all duration-500
               ${
                 showHistory && showHistoryText
                   ? "opacity-100 translate-y-0"
