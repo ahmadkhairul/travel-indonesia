@@ -1,58 +1,7 @@
 "use client";
 import ParallaxSection from "./ParallaxSection";
 import { useEffect, useState } from "react";
-
-const sections = [
-  {
-    id: "bali",
-    title: "Bali",
-    image: "/images/bali.jpg",
-    description:
-      "The Island of the Gods, famous for its beaches, temples, and vibrant culture.",
-  },
-  {
-    id: "bandung",
-    title: "Bandung",
-    image: "/images/bandung.jpg",
-    description:
-      "The Paris of Java, known for its cool climate, art deco architecture, and culinary delights.",
-  },
-  {
-    id: "bogor",
-    title: "Bogor",
-    image: "/images/bogor.jpg",
-    description:
-      "The City of Rain, home to the famous Bogor Botanical Gardens and lush landscapes.",
-  },
-  {
-    id: "jogjakarta",
-    title: "Jogjakarta",
-    image: "/images/jogjakarta.jpg",
-    description:
-      "The cultural heart of Java, gateway to Borobudur and Prambanan temples.",
-  },
-  {
-    id: "papua",
-    title: "Papua",
-    image: "/images/papua.jpg",
-    description:
-      "Untamed wilderness, rich tribal culture, and the breathtaking Raja Ampat islands.",
-  },
-  {
-    id: "sumatera",
-    title: "Sumatera",
-    image: "/images/sumatera.jpg",
-    description:
-      "Vast rainforests, volcanic lakes, and the home of the endangered Sumatran tiger.",
-  },
-  {
-    id: "surakarta",
-    title: "Surakarta",
-    image: "/images/surakarta.jpg",
-    description:
-      "Also known as Solo, a city steeped in Javanese tradition and royal heritage.",
-  },
-];
+import { sections } from "./section";
 
 export default function Home() {
   // Fade-in/slide-in animation on scroll
@@ -108,6 +57,38 @@ export default function Home() {
     setTimeout(() => setButtonVisible(true), 1500);
   }, []);
 
+  useEffect(() => {
+    const sun = document.getElementById("sun");
+    const sky = document.getElementById("sky");
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const maxScroll = window.innerHeight;
+
+      const progress = Math.min(scrollY / maxScroll, 1);
+
+      // Move sun down and fade it out
+      if (sun) {
+        sun.style.transform = `translate(-50%, ${progress * 1000}px)`;
+        sun.style.opacity = `${1 - progress}`;
+
+        // Change sun color from yellow to reddish
+        const sunColor = `rgb(${250 - progress * 100}, ${
+          204 - progress * 150
+        }, ${21 + progress * 100})`; // yellow → orange-red
+        sun.style.backgroundColor = sunColor;
+      }
+
+      // Sky gradient darkens (optional, via filter)
+      if (sky) {
+        sky.style.filter = `brightness(${1 - progress * 0.4})`;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="w-full min-h-screen bg-background text-foreground font-sans">
       {/* Navigation Bar */}
@@ -128,17 +109,53 @@ export default function Home() {
         className="relative min-h-[80vh] sm:min-h-[90vh] flex flex-col items-center justify-center overflow-hidden"
       >
         {/* Indonesian flag background with fade from top */}
+        {/* Background container: sky, sun, mountain */}
         <div
-          className={`absolute inset-0 z-0 flex flex-col transition-all duration-700 ease-out
-            ${
-              flagVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-16"
-            }`}
+          className={`absolute inset-0 z-0 overflow-hidden bg-gradient-to-b from-sky-300 to-blue-900 transition-all duration-700  ${
+            flagVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-16"
+          }`}
+          id="sky"
         >
-          <div className="flex-1 bg-[#d90000]" />
-          <div className="flex-1 bg-white" />
+          {/* Sun */}
+          <div
+            id="sun"
+            className="absolute left-1/2 top-[20%] w-32 h-32 rounded-full shadow-xl transition-transform duration-300 ease-out -translate-x-1/2"
+            style={{ backgroundColor: "#facc15" }} // Tailwind yellow-400
+          ></div>
+
+          {/* Mountain layer (foreground) */}
+          <div className="absolute bottom-0 w-full h-1/2 z-10 pointer-events-none">
+            <svg
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              className="w-full h-full"
+            >
+              <polygon
+                points="0,100 20,60 40,80 60,50 80,75 100,60 100,100"
+                fill="#374151"
+              />{" "}
+              {/* Tailwind gray-700 */}
+            </svg>
+          </div>
+
+          {/* Mountain layer (background) */}
+          <div className="absolute bottom-0 w-full h-1/2 z-0 pointer-events-none">
+            <svg
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              className="w-full h-full opacity-60"
+            >
+              <polygon
+                points="0,100 30,70 50,80 70,60 100,90 100,100"
+                fill="#1f2937"
+              />{" "}
+              {/* Tailwind gray-900 */}
+            </svg>
+          </div>
         </div>
+
         {/* Text fade in */}
         <div
           className={`relative z-10 text-center px-4 max-w-2xl mx-auto drop-shadow-lg transition-all duration-700
@@ -184,51 +201,7 @@ export default function Home() {
             title={section.title}
             description={section.description}
             image={section.image}
-            history={
-              section.title === "Bali"
-                ? [
-                    "Bali has a rich history dating back to the 9th century.",
-                    "It was once a major Hindu kingdom in Indonesia.",
-                    "Today, Bali is renowned for its unique culture and traditions.",
-                  ]
-                : section.title === "Bandung"
-                ? [
-                    "Bandung was founded in 1810 by the Dutch colonial government.",
-                    "It became a center for art deco architecture in the 20th century.",
-                    "Bandung is known as the 'Paris of Java'.",
-                  ]
-                : section.title === "Bogor"
-                ? [
-                    "Bogor is famous for its botanical gardens, established in 1817.",
-                    "It was a retreat for Dutch governors during colonial times.",
-                    "Bogor is nicknamed the 'City of Rain'.",
-                  ]
-                : section.title === "Jogjakarta"
-                ? [
-                    "Jogjakarta is a center of classical Javanese fine art and culture.",
-                    "It was the capital of Indonesia during the independence war.",
-                    "Home to the Sultan's Palace and Borobudur temple.",
-                  ]
-                : section.title === "Papua"
-                ? [
-                    "Papua is Indonesia's easternmost province, rich in biodiversity.",
-                    "It is home to hundreds of indigenous tribes.",
-                    "Raja Ampat in Papua is a world-class diving destination.",
-                  ]
-                : section.title === "Sumatera"
-                ? [
-                    "Sumatera is the sixth largest island in the world.",
-                    "It has a history of powerful kingdoms and sultanates.",
-                    "Sumatera is known for its rainforests and wildlife.",
-                  ]
-                : section.title === "Surakarta"
-                ? [
-                    "Surakarta, also known as Solo, is a royal city in Central Java.",
-                    "It is famous for its traditional Javanese culture and batik.",
-                    "The city is home to two royal palaces: Kraton and Mangkunegaran.",
-                  ]
-                : []
-            }
+            history={section.history}
           />
         </section>
       ))}
