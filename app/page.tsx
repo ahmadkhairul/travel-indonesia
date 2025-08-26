@@ -1,7 +1,8 @@
 "use client";
-import ParallaxSection from "./ParallaxSection";
+import ParallaxSection from "@/components/old/parallax";
 import { useEffect, useState } from "react";
-import { sections } from "./section";
+import { sections } from "@/data/section";
+import Navbar from "@/components/navbar";
 
 export default function Home() {
   // Fade-in/slide-in animation on scroll
@@ -91,17 +92,7 @@ export default function Home() {
 
   return (
     <div className="w-full min-h-screen bg-background text-foreground font-sans">
-      {/* Navigation Bar */}
-      <nav className="w-screen navbar flex items-center justify-start py-3 gap-4 sm:hidden overflow-x-auto px-4 whitespace-nowrap scrollbar-hide">
-        <a href="#hero" className="navbar-link">
-          Home
-        </a>
-        {sections.map((section) => (
-          <a key={section.id} href={`#${section.id}`} className="navbar-link">
-            {section.title}
-          </a>
-        ))}
-      </nav>
+      <Navbar />
 
       {/* Hero Section with Indonesian flag background and staged animation */}
       <section
