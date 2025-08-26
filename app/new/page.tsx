@@ -17,16 +17,13 @@ import mountain from "@/svgs/mountain.svg";
 import hillForeground from "@/svgs/hill-foreground.svg";
 import bird from "@/svgs/bird.svg";
 import BackToTopButton from "@/components/new/backToTop";
+import BackgroundParallax from "@/components/new/backgroundParallax";
 
 export default function Home() {
   const { scrollY } = useScroll();
 
-  // Global transforms
   const sunY = useTransform(scrollY, [0, 300], [0, 499]);
   const skyOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-
-  // Satu base transform → nanti dikali speed masing-masing layer
-  const baseY = useTransform(scrollY, [0, 300], [0, 300]);
 
   const heroRef = useRef(null);
   const isInView = useInView(heroRef, { once: false, margin: "-100px" });
@@ -50,10 +47,10 @@ export default function Home() {
   };
 
   const layers = [
-    { src: hill, z: 10, height: 400, speed: 0.3 },
-    { src: mountain, z: 20, height: 500, speed: 0.6 },
-    { src: hill2, z: 30, height: 450, speed: 0.15 },
-    { src: hillForeground, z: 40, height: 500, speed: 0 }, // foreground fix
+    { src: hill, z: 10, height: 400, speed: 0.3, y: 200 },
+    { src: mountain, z: 20, height: 500, speed: 0.6, y: 350 },
+    { src: hill2, z: 30, height: 450, speed: 0.15, y: 100 },
+    { src: hillForeground, z: 40, height: 500, speed: 0, y: 50 }, // foreground fix
   ];
 
   return (
@@ -130,25 +127,12 @@ export default function Home() {
 
         {/* Hills & Mountains via array */}
         {layers.map((layer, i) => (
-          <motion.div
+          <BackgroundParallax
             key={i}
-            className={`absolute bottom-0 w-full flex justify-center z-${layer.z} pointer-events-none`}
-            initial="hidden"
             variants={yVariant}
-            animate="visible"
             custom={i * 2}
-            style={{
-              y: useTransform(baseY, (val) => val * layer.speed),
-            }}
-          >
-            <Image
-              className="w-full"
-              src={layer.src}
-              alt={`Layer ${i}`}
-              width={1440}
-              height={layer.height}
-            />
-          </motion.div>
+            {...layer}
+          />
         ))}
 
         {/* Text */}
